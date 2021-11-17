@@ -17,10 +17,11 @@ var getTokenData = async (token) => {
 
 var register = async (req, res) => {
     const V = new Validator(req.body, {
+        cmpny_uid: 'required',
         name: 'required',
         email: 'required|email',
         password: 'required',
-        // type: 'required',
+        type: 'required',
         mobile: 'required',
         position: 'required',
         country: 'required',
@@ -34,22 +35,16 @@ var register = async (req, res) => {
 
     let saveData = {
         _id: mongoose.Types.ObjectId(),
-        cmpny_id: mongoose.Types.ObjectId(req.body.cmpny_id),
+        cmpny_uid: Number(req.body.cmpny_uid),
         name: req.body.name,
         email: req.body.email,
         password: passwordHash.generate(req.body.password),
-        // type: req.body.type,
+        type: req.body.type,
         mobile: Number(req.body.mobile),
         position: req.body.position,
         country: req.body.country,
         language: req.body.language,
         token: createToken(req.body)
-    }
-    if (req.body.cmpny_uid != "" || req.body.cmpny_uid != null || typeof req.body.cmpny_uid != "undefined") {
-        saveData.cmpny_uid = req.body.cmpny_uid;
-    }
-    if (req.body.type != "" || req.body.type != null || typeof req.body.type != "undefined") {
-        saveData.type = req.body.type;
     }
     if (req.body.fax != "" || req.body.fax != null || typeof req.body.fax != "undefined") {
         saveData.fax = req.body.fax;

@@ -17,8 +17,6 @@ const AUTH_USER = require('../../controllers/auth/User');
 router.post('/company/register', AUTH_COMPANY.register);
 router.post('/company/login', AUTH_COMPANY.login);
 
-router.post('/company/employee/login', AUTH_USER.login);
-
 router.post('/user/register', AUTH_USER.register);
 router.post('/user/login', AUTH_USER.login);
 /** =============================== without login url end =============================== */

@@ -5,8 +5,10 @@ var Schema = mongoose.Schema;
 
 const USER_SCHEMA = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    cmpny_id: mongoose.Schema.Types.ObjectId,
-    cmpny_uid: Number,
+    cmpny_uid: {
+        type:Number,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -22,7 +24,7 @@ const USER_SCHEMA = new Schema({
     },
     type: {            //
         type: String,
-        default: "User"
+        required: true
     },
     mobile: {
         type: Number,

@@ -20,7 +20,7 @@ const permission = [
         url: "/company/login",
     },
     {
-        url: "/company/employee/login",
+        url: "/user/register",
     },
     {
         url: "/user/login",
