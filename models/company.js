@@ -19,11 +19,7 @@ const COMPANY_SCHEMA = new Schema({
         type: String,
         required: true
     },
-    type: {
-        type: String, // mongoose.Schema.Types.ObjectId
-        // required: true,
-        default: "Transport company"
-    },
+    type: String,
     telephone: {
         type: String,
         required: true,

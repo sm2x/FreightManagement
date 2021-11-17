@@ -20,7 +20,6 @@ var register = async (req, res) => {
         name: 'required',
         email: 'required|email',
         password: 'required',
-        // type: 'required',
         telephone: 'required',
         tax_regn_no: 'required',
         fax: 'required',
@@ -38,7 +37,7 @@ var register = async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: passwordHash.generate(req.body.password),
-        // type: req.body.type, // mongoose.Types.ObjectId()
+        type: req.body.type,
         telephone: req.body.telephone,
         tax_regn_no: req.body.tax_regn_no,
         fax: req.body.fax,
