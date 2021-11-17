@@ -37,7 +37,7 @@ var register = async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: passwordHash.generate(req.body.password),
-        type: req.body.type, // mongoose.Types.ObjectId()
+        // type: req.body.type, // mongoose.Types.ObjectId()
         telephone: req.body.telephone,
         uid: req.body.uid,
         fax: req.body.fax,

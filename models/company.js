@@ -20,7 +20,8 @@ const COMPANY_SCHEMA = new Schema({
     },
     type: {
         type: String, // mongoose.Schema.Types.ObjectId
-        required: true
+        // required: true,
+        default: "Manufacturers (factories)"
     },
     telephone: {
         type: String,
