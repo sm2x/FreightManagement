@@ -67,7 +67,7 @@ var login = async(req,res) =>
 {
     let v = new Validator(req.body,{
         email:'required|email',
-        password:'required|minLength:8'
+        password:'required'
     })
     let matched = await v.check().then((val)=>val)
     if(!matched)
