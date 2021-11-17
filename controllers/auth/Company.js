@@ -10,7 +10,7 @@ function createToken(data) {
 }
 
 var getTokenData = async (token) => {
-    let adminData = await Admin.findOne({ token: token }).exec();
+    let adminData = await COMPANY.findOne({ token: token }).exec();
     // console.log('adminData', adminData);
     return adminData;
 }

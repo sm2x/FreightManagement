@@ -6,8 +6,8 @@
  */
 var user = {};
 const CompanyController = require('../controllers/auth/Company');
-// const SuparAdminController = require('../Controller/Auth/SuparAdmin');
-// const BpoController = require('../Controller/Auth/Bpo');
+// const EmployeeController = require('../controllers/company/User');
+// const UserController = require('../controllers/auth/User');
 
 
 
@@ -18,6 +18,12 @@ const permission = [
     },
     {
         url: "/company/login",
+    },
+    {
+        url: "/company/employee/login",
+    },
+    {
+        url: "/user/login",
     }
 ]
 
@@ -35,6 +41,12 @@ user.middleware = async (req, res, next) => {
             if (userType == "Company") {
                 userData = await CompanyController.getTokenData(authorization);
             }
+            // else if (userType == "Employee") {
+                
+            // }
+            // else if (userType == "User") {
+            //     userData = await UserController.getTokenData(authorization);
+            // }
 
             if (userData && userData != null) {
                     userData.password = null;
