@@ -20,9 +20,9 @@ var register = async (req, res) => {
         name: 'required',
         email: 'required|email',
         password: 'required',
-        type: 'required',
+        // type: 'required',
         telephone: 'required',
-        uid: 'required',
+        tax_regn_no: 'required',
         fax: 'required',
         address: 'required'
     });
@@ -34,14 +34,16 @@ var register = async (req, res) => {
 
     let saveData = {
         _id: mongoose.Types.ObjectId(),
+        unique_id: `${new Date().getDate()}${new Date().getHours()}${new Date().getSeconds()}${new Date().getMilliseconds()}`,
         name: req.body.name,
         email: req.body.email,
         password: passwordHash.generate(req.body.password),
         // type: req.body.type, // mongoose.Types.ObjectId()
         telephone: req.body.telephone,
-        uid: req.body.uid,
+        tax_regn_no: req.body.tax_regn_no,
         fax: req.body.fax,
         address: req.body.address,
+        country: req.body.country,
         token: createToken(req.body)
     }
     const NEW_COMPANY = new COMPANY(saveData);

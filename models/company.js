@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 
 const COMPANY_SCHEMA = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    unique_id: Number,
     name: {
         type: String,
         required: true
@@ -21,14 +22,14 @@ const COMPANY_SCHEMA = new Schema({
     type: {
         type: String, // mongoose.Schema.Types.ObjectId
         // required: true,
-        default: "Manufacturers (factories)"
+        default: "Transport company"
     },
     telephone: {
         type: String,
         required: true,
         unique: true
     },
-    uid: {
+    tax_regn_no: {
         type: String,
         required: true,
         unique: true
@@ -42,6 +43,7 @@ const COMPANY_SCHEMA = new Schema({
         type: String,
         required: true
     },
+    country: Array,
     token: String,
     status: {
         type: Boolean,
