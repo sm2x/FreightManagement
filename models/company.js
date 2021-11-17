@@ -51,6 +51,7 @@ const COMPANY_SCHEMA = new Schema({
     }
 });
 
+// verify encrypted password
 COMPANY_SCHEMA.methods.comparePassword = function (candidatePassword) {
     return passwordHash.verify(candidatePassword, this.password);
 }

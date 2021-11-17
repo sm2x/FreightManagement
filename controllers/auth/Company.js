@@ -65,6 +65,7 @@ var register = async (req, res) => {
         });
 }
 
+// Company login
 var login = async(req,res) =>
 {
     let v = new Validator(req.body,{
