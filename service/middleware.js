@@ -5,13 +5,19 @@
  * @public
  */
 var user = {};
+const AdminController = require('../controllers/auth/SuperAdmin');
 const CompanyController = require('../controllers/auth/Company');
 const UserController = require('../controllers/auth/User');
 
 
-
 //Middleware
 const permission = [
+    {
+        url: "/admin/register",
+    },
+    {
+        url: "/admin/login",
+    },
     {
         url: "/company/register",
     },
@@ -39,7 +45,10 @@ user.middleware = async (req, res, next) => {
             let authorization = req.headers.authorization
             let userData = null;
             let userType = typeof(req.headers.usertype) != "undefined" ? req.headers.usertype : "Admin";
-
+            
+            if (userType == "Admin") {
+                userData = await AdminController.getTokenData(authorization);
+            }
             if (userType == "Company") {
                 userData = await CompanyController.getTokenData(authorization);
             }
