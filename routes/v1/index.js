@@ -2,10 +2,11 @@ var express = require('express');
 var multer = require('multer');
 
 var companyRoute = require('./company');
-
-var router = express.Router();
+var userRoute = require('./user');
 
 const MIDDLEWARE = require('../../service/middleware').middleware;
+
+var router = express.Router();
 
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
@@ -28,5 +29,6 @@ router.post('/user/login', AUTH_USER.login);
 router.use(MIDDLEWARE);
 
 router.use('/company', companyRoute);
+router.use('/user', userRoute);
 
 module.exports = router;
