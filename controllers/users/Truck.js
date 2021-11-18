@@ -61,14 +61,14 @@ var addFreightJourney = async (req, res) => {
     const NEW_JOURNEY = new TRUCK(saveData);
 
     return NEW_JOURNEY.save()
-        .then(data=>{
+        .then(data => {
             res.status(200).json({
                 status: true,
                 message: "Data saved successfully!",
                 data: data
             });
         })
-        .catch(err=>{
+        .catch(err => {
             res.status(500).json({
                 status: false,
                 message: "Failed to save data. Server error.",
@@ -77,6 +77,110 @@ var addFreightJourney = async (req, res) => {
         });
 }
 
+var viewAllTruckJourneys = async (req, res) => {
+    var user_id = req.params.user_id;
+    var truck_journeys = await TRUCK.find(
+        { user_id: mongoose.Types.ObjectId(user_id) }
+    ).exec();
+
+    if (truck_journeys.length > 0) {
+        return res.status(200).json({
+            status: true,
+            message: "Data successfully get.",
+            data: truck_journeys
+        });
+    }
+    else {
+        return res.status(200).json({
+            status: true,
+            message: "No truck journeys added till date.",
+            data: null
+        });
+    }
+}
+
+var viewTruckJourneyById = async (req, res) => {
+    var id = req.params.id;
+
+    return TRUCK.findOne({ _id: mongoose.Types.ObjectId(id) })
+        .then(data => {
+            res.status(200).json({
+                status: true,
+                message: "Data successfully get.",
+                data: data
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: false,
+                message: "Invalid id. Server error.",
+                error: err.message
+            });
+        });
+}
+
+var editTruckJourney = async (req, res) => {
+    const V = new Validator(req.body, {
+        date_of_loading: 'required',
+        load_point: 'required',
+        unload_point: 'required',
+        type: 'required',
+        drive_length: 'required',
+        trailer_length: 'required',
+        drive_weight: 'required',
+        trailer_weight: 'required'
+    });
+    let matched = await V.check().then(val => val);
+
+    if (!matched) {
+        return res.status(400).json({ status: false, errors: V.errors });
+    }
+
+    var id = req.params.id;
+
+    return TRUCK.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(id) },
+        req.body,
+        { new: true }
+    ).then(data => {
+        res.status(200).json({
+            status: true,
+            message: "Data successfully edited.",
+            data: data
+        });
+    }).catch(err => {
+        res.status(500).json({
+            status: false,
+            message: "Invalid id. Server error",
+            error: err.message
+        });
+    });
+}
+
+var deleteTruckJourney = async (req,res)=>{
+    var id = req.params.id;
+
+    return TRUCK.findOneAndDelete(
+        { _id: mongoose.Types.ObjectId(id) }
+    ).then(data => {
+        res.status(200).json({
+            status: true,
+            message: "Data successfully deleted.",
+            data: data
+        });
+    }).catch(err => {
+        res.status(500).json({
+            status: false,
+            message: "Invalid id. Server error",
+            error: err.message
+        });
+    });
+}
+
 module.exports = {
-    addFreightJourney
+    addFreightJourney,
+    viewAllTruckJourneys,
+    viewTruckJourneyById,
+    editTruckJourney,
+    deleteTruckJourney
 }

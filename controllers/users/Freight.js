@@ -97,6 +97,117 @@ var addNewFreight = async (req, res) => {
         });
 }
 
+var viewAllFreights = async (req, res) => {
+    var user_id = req.params.user_id;
+    var freights = await FREIGT.find(
+        { user_id: mongoose.Types.ObjectId(user_id) }
+    ).exec();
+
+    if (freights.length > 0) {
+        return res.status(200).json({
+            status: true,
+            message: "Data successfully get.",
+            data: freights
+        });
+    }
+    else {
+        return res.status(200).json({
+            status: true,
+            message: "No freights added till date.",
+            data: null
+        });
+    }
+}
+
+var viewFreightById = async (req, res) => {
+    var id = req.params.id;
+
+    return FREIGT.findOne({ _id: mongoose.Types.ObjectId(id) })
+        .then(data => {
+            res.status(200).json({
+                status: true,
+                message: "Data successfully get.",
+                data: data
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                status: false,
+                message: "Invalid id. Server error.",
+                error: err.message
+            });
+        });
+}
+
+var editFreight = async (req, res) => {
+    const V = new Validator(req.body, {
+        loading_country_name: 'required',
+        loading_town_zip: 'required',
+        loading_town_name: 'required',
+        loading_datetime: 'required',
+        unloading_country_name: 'required',
+        unloading_town_zip: 'required',
+        unloading_town_name: 'required',
+        unloading_datetime: 'required',
+        length: 'required',
+        weight: 'required',
+        goods_type: 'required',
+        price: 'required',
+        currency: 'required',
+        payment_due: 'required',
+        vehicle_types: 'required',
+    });
+    let matched = await V.check().then(val => val);
+
+    if (!matched) {
+        return res.status(400).json({ status: false, errors: V.errors });
+    }
+
+    var id = req.params.id;
+
+    return FREIGT.findOneAndUpdate(
+        { _id: mongoose.Types.ObjectId(id) },
+        req.body,
+        { new: true }
+    ).then(data => {
+        res.status(200).json({
+            status: true,
+            message: "Data successfully edited.",
+            data: data
+        });
+    }).catch(err => {
+        res.status(500).json({
+            status: false,
+            message: "Invalid id. Server error",
+            error: err.message
+        });
+    });
+}
+
+var deleteFreight = async (req, res) => {
+    var id = req.params.id;
+
+    return FREIGT.findOneAndDelete(
+        { _id: mongoose.Types.ObjectId(id) }
+    ).then(data => {
+        res.status(200).json({
+            status: true,
+            message: "Data successfully deleted.",
+            data: data
+        });
+    }).catch(err => {
+        res.status(500).json({
+            status: false,
+            message: "Invalid id. Server error",
+            error: err.message
+        });
+    });
+}
+
 module.exports = {
-    addNewFreight
+    addNewFreight,
+    viewAllFreights,
+    viewFreightById,
+    editFreight,
+    deleteFreight
 }
