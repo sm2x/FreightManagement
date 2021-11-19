@@ -78,7 +78,7 @@ const FREIGHT_SCHEMA = new Schema({
         default: 'Not specified'
     },
     vehicle_types: {
-        type: Array,
+        type: String,
         required: true
     },
     trailer_body: {

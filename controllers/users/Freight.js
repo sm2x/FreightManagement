@@ -213,7 +213,7 @@ var deleteFreight = async (req, res) => {
 
     return FREIGT.findOneAndDelete(
         {
-            user_id: mongoose.Types.ObjectId(user_id), 
+            user_id: mongoose.Types.ObjectId(user_id),
             _id: mongoose.Types.ObjectId(id) }
     ).then(data => {
         res.status(200).json({
