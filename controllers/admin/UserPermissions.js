@@ -5,6 +5,13 @@ const USER_PERMISSIONS = require('../../models/user_permissions');
 
 var addPermissions = async (req, res) => {
     const v = new Validator(req.body, {
+        name: 'required',
+        email: 'required|email',
+        type: 'required',
+        mobile: 'required',
+        position: 'required',
+        country: 'required',
+        language: 'required',
         permissions: 'required',
     });
     let matched = await v.check().then((val) => val);
@@ -14,10 +21,18 @@ var addPermissions = async (req, res) => {
     let saveData = {
         _id: mongoose.Types.ObjectId(),
         user_id: mongoose.Types.ObjectId(req.body.user_id),
-        cmpny_uid: Number(req.body.cmpny_uid)
+        cmpny_uid: Number(req.body.cmpny_uid),
+        name: req.body.name,
+        email: req.body.email,
+        type: req.body.type,
+        mobile: Number(req.body.mobile),
+        position: req.body.position,
+        country: req.body.country,
+        language: req.body.language,
+        permissions: req.body.permissions
     }
-    if (req.body.permissions != "" || req.body.permissions != null || typeof req.body.permissions != "undefined") {
-        saveData.permissions = req.body.permissions;
+    if (req.body.fax != "" || req.body.fax != null || typeof req.body.fax != "undefined") {
+        saveData.fax = req.body.fax;
     }
 
     const NEW_PERMISSIONS = new USER_PERMISSIONS(saveData);
