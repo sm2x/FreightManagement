@@ -45,6 +45,5 @@ var viewUserById = async (req, res) => {
 
 module.exports = {
     viewAllUsers,
-    viewUserById,
-    viewUsersByCompany
+    viewUserById
 }
