@@ -10,6 +10,7 @@ router.get('/users', USER.viewAllUsers);
 router.get('/users/:id', USER.viewUserById);
 
 router.post('/user-permissions', USER_PERMISSIONS.addPermissions);
+router.get('/user-permissions', USER_PERMISSIONS.viewAllPermissions);
 
 router.get('/companies', COMPANY.viewAllCompanies);
 router.get('/companies/:id', COMPANY.viewCompanyById);

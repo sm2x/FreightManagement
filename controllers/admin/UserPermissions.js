@@ -39,6 +39,26 @@ var addPermissions = async (req, res) => {
         });
 }
 
+var viewAllPermissions = async (req, res) => {
+    var permissions = await USER_PERMISSIONS.find().exec();
+
+    if (permissions.length > 0) {
+        return res.status(200).json({
+            status: true,
+            message: "Data successfully get.",
+            data: permissions
+        });
+    }
+    else {
+        return res.status(200).json({
+            status: true,
+            message: "No permissions given till date.",
+            data: null
+        });
+    }
+}
+
 module.exports = {
-    addPermissions
+    addPermissions,
+    viewAllPermissions
 }

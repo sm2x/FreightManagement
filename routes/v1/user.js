@@ -7,6 +7,7 @@ const FREIGHT = require('../../controllers/users/Freight');
 const TRUCK = require('../../controllers/users/Truck');
 
 router.get('/profile/:id', MY_PROFILE.getSelfProfile);
+router.get('/permissions/:user_id', MY_PROFILE.viewPermissions);
 
 router.post('/freight', FREIGHT.addNewFreight);
 router.get('/freight/:user_id', FREIGHT.viewAllFreights);
