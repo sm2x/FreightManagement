@@ -26,24 +26,49 @@ var getSelfProfile = async (req, res) => {
 }
 
 var viewPermissions = async (req, res) => {
-    var user_id = req.params.user_id;
-
-    var permissions = await USER_PERMISSIONS.find({ user_id: mongoose.Types.ObjectId(user_id) }).exec();
-
-    if (permissions.length > 0) {
-        return res.status(200).json({
-            status: true,
-            message: "Data successfully get.",
-            data: permissions
-        });
-    }
-    else {
-        return res.status(200).json({
-            status: true,
-            message: "No permissions given.",
-            data: null
-        });
-    }
+    return USER_PERMISSIONS.aggregate([
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user_id',
+                foreignField: '_id',
+                as: 'user_data'
+            }
+        },
+        {
+            $unwind: '$user_data'
+        },
+        {
+            $lookup: {
+                from: 'companies',
+                localField: 'cmpny_uid',
+                foreignField: 'unique_id',
+                as: 'company_data'
+            }
+        },
+        {
+            $unwind: '$company_data'
+        },
+        {
+            $project: {
+                __v: 0
+            }
+        }
+    ])
+        .then(data=>{
+            res.status(200).json({
+                status: true,
+                message: "Data get successfully!",
+                data: data
+            });
+        })
+        .catch(err=>{
+            res.status(500).json({
+                status: false,
+                message: "Failed to get data. Server error.",
+                error: err
+            });
+        })
 }
 
 module.exports = {
