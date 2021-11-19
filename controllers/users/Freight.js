@@ -182,11 +182,14 @@ var editFreight = async (req, res) => {
     if (!matched) {
         return res.status(400).json({ status: false, errors: V.errors });
     }
-
+    
+    var user_id = req.params.user_id;
     var id = req.params.id;
 
     return FREIGT.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(id) },
+        {
+            user_id: mongoose.Types.ObjectId(user_id), 
+            _id: mongoose.Types.ObjectId(id) },
         req.body,
         { new: true }
     ).then(data => {
@@ -205,10 +208,13 @@ var editFreight = async (req, res) => {
 }
 
 var deleteFreight = async (req, res) => {
+    var user_id = req.params.user_id;
     var id = req.params.id;
 
     return FREIGT.findOneAndDelete(
-        { _id: mongoose.Types.ObjectId(id) }
+        {
+            user_id: mongoose.Types.ObjectId(user_id), 
+            _id: mongoose.Types.ObjectId(id) }
     ).then(data => {
         res.status(200).json({
             status: true,

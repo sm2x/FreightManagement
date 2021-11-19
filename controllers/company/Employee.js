@@ -69,7 +69,55 @@ var register = async (req, res) => {
         });
 }
 
+var viewAllEmployees = async (req, res) => {
+    var users = await USER.find(
+        { cmpny_uid: Number(req.params.cmpny_uid) }
+    ).exec();
+
+    if (users.length > 0) {
+        return res.status(200).json({
+            status: true,
+            message: "Data successfully get.",
+            data: users
+        });
+    }
+    else {
+        return res.status(200).json({
+            status: true,
+            message: "No registered user found.",
+            data: null
+        });
+    }
+}
+
+var viewEmployeeById = async (req, res) => {
+    var cmpny_uid = req.params.cmpny_uid;
+    var id = req.params.id;
+
+    return USER.findOne(
+        {
+            cmpny_uid: Number(cmpny_uid),
+            _id: mongoose.Types.ObjectId(id) }
+    )
+        .then(data => {
+            res.status(200).json({
+                status: true,
+                message: "Data successfully get.",
+                data: data
+            });
+        })
+        .catch(err=>{
+            res.status(500).json({
+                status: false,
+                message: "Invalid id. Server error.",
+                error: err.message
+            });
+        });
+}
+
 module.exports = {
     getTokenData,
-    register
+    register,
+    viewAllEmployees,
+    viewEmployeeById
 }
