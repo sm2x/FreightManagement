@@ -135,9 +135,14 @@ var viewAllFreights = async (req, res) => {
 }
 
 var viewFreightById = async (req, res) => {
+    var user_id = req.params.user_id;
     var id = req.params.id;
 
-    return FREIGT.findOne({ _id: mongoose.Types.ObjectId(id) })
+    return FREIGT.findOne(
+        {
+            user_id: mongoose.Types.ObjectId(user_id), 
+            _id: mongoose.Types.ObjectId(id) 
+        })
         .then(data => {
             res.status(200).json({
                 status: true,
