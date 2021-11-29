@@ -27,7 +27,10 @@ var register = async (req, res) => {
         fullname: req.body.fullname,
         user_type: "Subadmin",
         token: createToken(req.body)
-    };
+    }
+    if (req.body.mobile != '' || req.body.mobile != null || typeof req.body.mobile != 'undefined') {
+        insertData.mobile = Number(req.body.mobile);
+    }
 
     if (typeof (req.body.phone) != "undefined") {
         insertData.phone = Number(req.body.phone);

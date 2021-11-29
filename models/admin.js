@@ -19,6 +19,7 @@ const SuparAdminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  mobile: Number,
   image: {
     type: String,
     required: false,
