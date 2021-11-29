@@ -1,9 +1,9 @@
 var mongoose = require('mongoose')
-var SuperAdmin = require('../../models/super_admin');
-const passwordHash = require('password-hash');
-
+var passwordHash = require('password-hash');
 var jwt = require('jsonwebtoken');
 const { Validator } = require('node-input-validator');
+
+var Admin = require('../../models/admin');
 // const S3 = require('../../service/s3');
 
 // username
@@ -43,7 +43,7 @@ const register = async (req, res) => {
         insertData.phone = Number(req.body.phone);
     }
 
-    const modelData = await new SuperAdmin(insertData);
+    const modelData = await new Admin(insertData);
     return modelData
         .save()
         .then((data) => {
@@ -67,17 +67,17 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const v = new Validator(req.body, {
         email: 'required|email',
-        password: 'required'
+        password: 'required',
     });
     let matched = await v.check().then((val) => val);
     if (!matched) {
         return res.status(200).send({ status: false, error: v.errors });
     }
 
-    return SuperAdmin.findOne({ email: req.body.email })
+    return Admin.findOne({ email: req.body.email })
         .then(async (findData) => {
             if (findData != null && findData.comparePassword(req.body.password)) {
-                await SuperAdmin.updateOne(
+                await Admin.updateOne(
                     { _id: { $in: [mongoose.Types.ObjectId(findData._id)] } },
                     { $set: { "deviceToken": req.body.deviceToken } }
                 );
@@ -115,7 +115,7 @@ const getProfile = async (req, res) => {
 }
 
 const getTokenData = async (token) => {
-    let adminData = await SuperAdmin.findOne({ token: token }).exec();
+    let adminData = await Admin.findOne({ token: token }).exec();
     // console.log('adminData', adminData);
     return adminData;
 }
@@ -125,7 +125,7 @@ const update = async (req, res) => {
     if (typeof (req.body.password) != "undefined") {
         req.body = req.splite(req.body, "password");
     }
-    return SuperAdmin.findOneAndUpdate({ _id: { $in: [mongoose.Types.ObjectId(req.user._id)] } }, req.body, async (err, findData) => {
+    return Admin.findOneAndUpdate({ _id: { $in: [mongoose.Types.ObjectId(req.user._id)] } }, req.body, async (err, findData) => {
         if (err) {
             return res.status(500).json({
                 success: false,
@@ -160,7 +160,7 @@ const passwordChange = async (req, res) => {
         return res.status(200).send({ status: false, error: v.errors });
     }
     console.log('req.user._id', req.user._id);
-    return SuperAdmin.findOne({ _id: { $in: [mongoose.Types.ObjectId(req.user._id)] } }, async (err, findData) => {
+    return Admin.findOne({ _id: { $in: [mongoose.Types.ObjectId(req.user._id)] } }, async (err, findData) => {
         // console.log('findData', findData, req.body.oldPassword);
         if (err) {
             res.status(200).json({
@@ -169,7 +169,7 @@ const passwordChange = async (req, res) => {
                 error: err,
             });
         } else if (findData != null && findData.comparePassword(req.body.oldPassword)) {
-            await SuperAdmin.updateOne(
+            await Admin.updateOne(
                 { _id: { $in: [mongoose.Types.ObjectId(findData._id)] } },
                 { $set: { password: passwordHash.generate(req.body.password), } }
             );

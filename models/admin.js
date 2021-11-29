@@ -19,17 +19,20 @@ const SuparAdminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
-  token: {
-    type: String,
-    required: false,
-    unique: true,
-  },
   image: {
     type: String,
     required: false,
     default: 'https://eshendetesia.com/images/user-profile.png'
   },
+  user_type: {
+    type: String,
+    default: "Admin"
+  },
+  token: {
+    type: String,
+    required: false,
+    unique: true,
+  }
 });
 
 SuparAdminSchema.methods.comparePassword = function (candidatePassword) {
