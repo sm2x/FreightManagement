@@ -29,7 +29,7 @@ var register = async (req, res) => {
         token: createToken(req.body)
     }
     if (req.body.mobile != '' || req.body.mobile != null || typeof req.body.mobile != 'undefined') {
-        insertData.mobile = Number(req.body.mobile);
+        insertData.mobile = req.body.mobile;
     }
 
     if (typeof (req.body.phone) != "undefined") {
