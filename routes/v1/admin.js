@@ -14,6 +14,7 @@ router.get('/subadmin', SUBADMIN.viewAll);
 router.get('/subadmin/:id', SUBADMIN.viewSubadminById);
 
 router.post('/subadmin-permissions', SUBADMIN_PERMISSIONS.addPermission);
+router.get('/subadmin-permissions', SUBADMIN_PERMISSIONS.viewAllPermissions);
 
 router.get('/companies', COMPANY.viewAllCompanies);
 router.get('/companies/:id', COMPANY.viewCompanyById);

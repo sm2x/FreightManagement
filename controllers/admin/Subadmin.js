@@ -52,7 +52,7 @@ var register = async (req, res) => {
                 status: false,
                 success: false,
                 message: 'Server error. Please try again.',
-                error: error,
+                error: error.message,
             });
         });
 }
@@ -97,7 +97,7 @@ var viewSubadminById = async (req, res) => {
             res.status(500).json({
                 status: false,
                 message: "Invalid id. Server error.",
-                error: err
+                error: err.message
             });
         });
 }

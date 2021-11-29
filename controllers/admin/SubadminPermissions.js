@@ -36,11 +36,47 @@ var addPermission = async (req, res) => {
                 status: false,
                 success: false,
                 message: 'Server error. Please try again.',
-                error: error,
+                error: error.message,
+            });
+        });
+}
+
+var viewAllPermissions = async (req, res) => {
+    return SUBADMIN_PERMISSIONS.aggregate([
+        {
+            $lookup: {
+                from: "admins",
+                localField: "subadmin_id",
+                foreignField: "_id",
+                as: "subadmin_data"
+            }
+        },
+        {
+            $unwind: "$subadmin_data"
+        },
+        {
+            $project: {
+                __v: 0
+            }
+        }
+    ])
+        .then(data=>{
+            res.status(200).json({
+                status: true,
+                message: "Data successfully get.",
+                data: data
+            });
+        })
+        .catch(err=>{
+            res.status(500).json({
+                status: false,
+                message: "Failed to get data. Server error.",
+                error: err.message
             });
         });
 }
 
 module.exports = {
-    addPermission
+    addPermission,
+    viewAllPermissions
 }
