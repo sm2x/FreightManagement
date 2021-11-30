@@ -8,6 +8,7 @@ const FREIGHT = require('../../controllers/company/Freight');
 const TRUCK = require('../../controllers/company/Truck');
 
 router.get('/my-profile/:id', COMPANY_PROFILE.getSelfProfile);
+router.put('/my-profile/:id', COMPANY_PROFILE.updateProfile);
 
 router.get('/employees/:cmpny_uid', EMPLOYEES.viewAllEmployees);
 router.get('/employees/:cmpny_uid/:id', EMPLOYEES.viewEmployeeById);

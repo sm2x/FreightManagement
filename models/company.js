@@ -6,11 +6,11 @@ var Schema = mongoose.Schema;
 const COMPANY_SCHEMA = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     unique_id: Number,
-    name: {
+    company_name: {
         type: String,
         required: true
     },
-    email : {
+    company_email : {
         type: String,
         required: true,
         unique: true
@@ -19,27 +19,31 @@ const COMPANY_SCHEMA = new Schema({
         type: String,
         required: true
     },
-    type: String,
+    salutation: String,
+    contact_firstname: String,
+    contact_lastname: String,
+    account_type: String,
+    entity_type: String,
+    account_plan: String,
     telephone: {
         type: String,
-        required: true,
         unique: true
     },
     tax_regn_no: {
         type: String,
-        required: true,
         unique: true
     },
     fax: {
         type: String,
-        required: true,
         unique: true
     },
-    address: {
+    street: {
         type: String,
-        required: true
+        unique: true
     },
-    country: Array,
+    city: String,
+    country: Object,
+    pin: Number,
     token: String,
     status: {
         type: Boolean,
